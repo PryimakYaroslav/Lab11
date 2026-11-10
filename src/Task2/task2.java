@@ -2,7 +2,6 @@ package Task2;
 
 import java.math.BigDecimal;
 
-// Результат покупки у форматі магазину
 class PaymentResult {
     private final boolean successful;
     private final String message;
@@ -21,12 +20,10 @@ class PaymentResult {
     }
 }
 
-// Власний інтерфейс магазину
 interface PaymentGateway {
     PaymentResult purchase(BigDecimal amountUah, int gameCurrency);
 }
 
-// Перша стороння платіжна платформа
 class ExternalPaymentPlatform {
 
     public String executePayment(int amountCents, String currencyCode) {
@@ -38,7 +35,6 @@ class ExternalPaymentPlatform {
     }
 }
 
-// Адаптер першої платформи
 class PaymentAdapter implements PaymentGateway {
 
     private final ExternalPaymentPlatform platform;
@@ -49,7 +45,6 @@ class PaymentAdapter implements PaymentGateway {
 
     @Override
     public PaymentResult purchase(BigDecimal amountUah, int gameCurrency) {
-        // Перетворення гривень у копійки
         int amountCents = amountUah
                 .multiply(BigDecimal.valueOf(100))
                 .intValueExact();
@@ -66,7 +61,6 @@ class PaymentAdapter implements PaymentGateway {
     }
 }
 
-// Друга умовна платіжна платформа
 class SecondPaymentPlatform {
 
     public int makeTransaction(int amountInMinorUnits, String currency) {
@@ -74,11 +68,10 @@ class SecondPaymentPlatform {
         System.out.println("Сума: " + amountInMinorUnits + " копійок");
         System.out.println("Валюта: " + currency);
 
-        return 200; // 200 означає успішну оплату
+        return 200;
     }
 }
 
-// Адаптер другої платформи
 class SecondPaymentAdapter implements PaymentGateway {
 
     private final SecondPaymentPlatform platform;
